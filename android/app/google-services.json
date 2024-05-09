@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "57221760290",
+    "project_id": "car-parking-locator-ced20",
+    "storage_bucket": "car-parking-locator-ced20.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:57221760290:android:072416a7b27a94ee63517b",
+        "android_client_info": {
+          "package_name": "com.example.car_parking_locator"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9z-4LjeQ3AO7zRam3-4xNSDsPI0r4RuU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
