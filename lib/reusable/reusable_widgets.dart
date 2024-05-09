@@ -37,6 +37,14 @@ TextField textField(String text, IconData icon, bool isPasswordType,
   );
 }
 
+Container imgContainer(String imageName, double width, double height) {
+  return Container(
+    width: width, // Set the desired width
+    height: height,
+    child: Image.asset(imageName),
+  );
+}
+
 Container reusableButton(BuildContext context, bool isLogin, Function onTap) {
   return Container(
     width: MediaQuery.of(context).size.width,
@@ -63,5 +71,44 @@ Container reusableButton(BuildContext context, bool isLogin, Function onTap) {
             color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 16),
       ),
     ),
+  );
+}
+
+Future<void> showInformation(BuildContext context, String inform) async {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        shadowColor: Colors.black,
+        elevation: 8,
+        icon: const Icon(
+          Icons.info_outline_rounded,
+          color: Colors.blue,
+          size: 40,
+        ),
+        title: const Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text('Information'),
+          ),
+        ),
+        content: Text(
+          inform,
+          style: const TextStyle(color: Colors.blue, fontSize: 18),
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('OK', style: TextStyle(fontSize: 16)),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
   );
 }
