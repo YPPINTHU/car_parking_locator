@@ -1,10 +1,14 @@
+import 'dart:async';
+import 'dart:convert';
+import 'package:car_parking_locator/reusable/reusable_methods.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class PositionServices {
-  final String API_KEY = 'AIzaSyAg-mPv6CJZieI4GHEzoFCovkIf0lsSVW4';
+  final String API_KEY = 'AIzaSyBjnqn8CRZYns69EfYKouEc93m7TBcHsMU';
   final String baseUrl = 'https://maps.googleapis.com/maps/api/place';
 
   Future<String?> getPlaceId(String searchInput) async {
@@ -64,7 +68,6 @@ class PositionServices {
     bool serviceEnabled;
     LocationPermission permission;
 
-    // Test if location services are enabled.
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       return Future.error('Location services are disabled.');
@@ -82,17 +85,25 @@ class PositionServices {
       return Future.error(
           'Location permissions are permanently denied, we cannot request permissions.');
     }
-
     return await Geolocator.getCurrentPosition();
   }
 
-// Future<void> getPlaceId(String searchInput) async {
-//   final String url =
-//       '$baseUrl?input=$searchInput&inputtype=textquery&key=$API_KEY';
-//   var response = await http.get(Uri.parse(url));
-//   var jsonResponse = convert.jsonDecode(response.body);
-//   print(jsonResponse['candidates'][0]['place_id'] as String);
-// }
-// var placeId = jsonResponse['candidates'][0]['place_id'] as String;
-// return placeId;
+  Future<Map<String, dynamic>?> getCarLocations() async {
+    Map<String, dynamic> dataMap = {};
+    final ref = FirebaseDatabase.instance.ref();
+    try {
+      final snapshot = await ref.child('carLocation').get();
+      if (snapshot.exists) {
+        dataMap.addAll({
+          'latitude': snapshot.child('latitude').value,
+          'logtitude': snapshot.child('longitude').value,
+        });
+      } else {
+        print('No data available.');
+      }
+    } catch (e) {
+      print('Error fetching data: $e');
+    }
+    return dataMap;
+  }
 }

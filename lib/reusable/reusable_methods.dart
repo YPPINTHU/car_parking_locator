@@ -1,6 +1,8 @@
+import 'package:car_parking_locator/user_credentials/signin_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 Future<void> Navigation(BuildContext context, dynamic function) async {
   // Navigator.push(context, MaterialPageRoute(builder: (context) => function));
@@ -56,4 +58,13 @@ Future<void> showErrorAlert(BuildContext context, String errorMessage) async {
       );
     },
   );
+}
+
+Future<void> signOutUser(FirebaseAuth _auth, BuildContext context) async {
+  try {
+    await _auth.signOut();
+    Navigation(context, SignInScreen());
+  } catch (e) {
+    print("Error signing out: $e");
+  }
 }
